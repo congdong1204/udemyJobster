@@ -81,33 +81,35 @@ const allJobsSlice = createSlice({
     changePage: (state, action) => {
       state.page = action.payload
     },
+    clearAllJobsState: () => initialState,
   },
   extraReducers: (builder) => {
-    builder.addCase(getAllJobs.pending, (state) => {
-      state.isLoading = true
-    })
-    builder.addCase(getAllJobs.fulfilled, (state, action) => {
-      state.isLoading = false
-      state.jobs = action.payload.jobs
-      state.numOfPages = action.payload.numOfPages
-      state.totalJobs = action.payload.totalJobs
-    })
-    builder.addCase(getAllJobs.rejected, (state, action) => {
-      state.isLoading = false
-      toast.error(action.payload)
-    })
-    builder.addCase(showStats.pending, (state) => {
-      state.isLoading = true
-    })
-    builder.addCase(showStats.fulfilled, (state, action) => {
-      state.isLoading = false
-      state.stats = action.defaultStats
-      state.monthlyApplications = action.payload.monthlyApplications
-    })
-    builder.addCase(showStats.rejected, (state, action) => {
-      state.isLoading = false
-      toast.error(action.payload)
-    })
+    builder
+      .addCase(getAllJobs.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getAllJobs.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.jobs = action.payload.jobs
+        state.numOfPages = action.payload.numOfPages
+        state.totalJobs = action.payload.totalJobs
+      })
+      .addCase(getAllJobs.rejected, (state, action) => {
+        state.isLoading = false
+        toast.error(action.payload)
+      })
+      .addCase(showStats.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(showStats.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.stats = action.payload.defaultStats
+        state.monthlyApplications = action.payload.monthlyApplications
+      })
+      .addCase(showStats.rejected, (state, action) => {
+        state.isLoading = false
+        toast.error(action.payload)
+      })
   },
 })
 
@@ -117,5 +119,6 @@ export const {
   clearFilter,
   handleChange,
   changePage,
+  clearAllJobsState,
 } = allJobsSlice.actions
 export default allJobsSlice.reducer
